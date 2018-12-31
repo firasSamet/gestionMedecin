@@ -2,15 +2,9 @@ package tn.enis.gestion_des_medecins.entities;
 
 import lombok.Data;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
-
-import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
 
 @Entity
 @Data
