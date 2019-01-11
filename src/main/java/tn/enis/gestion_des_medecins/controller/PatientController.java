@@ -1,13 +1,15 @@
 package tn.enis.gestion_des_medecins.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import tn.enis.gestion_des_medecins.repositories.PatientRepository;
 import tn.enis.gestion_des_medecins.entities.Patient;
+import tn.enis.gestion_des_medecins.repositories.PatientRepository;
 
 import java.util.List;
 
 @RestController
+@Secured({ "ROLE_ADMIN", "ROLE_MEDECIN" })
 public class PatientController {
 
     @Autowired

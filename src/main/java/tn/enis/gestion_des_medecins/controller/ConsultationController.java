@@ -1,47 +1,61 @@
 package tn.enis.gestion_des_medecins.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import tn.enis.gestion_des_medecins.repositories.ConsultationRepository;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.*;
 import tn.enis.gestion_des_medecins.entities.Consultation;
+import tn.enis.gestion_des_medecins.repositories.ConsultationRepository;
+import tn.enis.gestion_des_medecins.repositories.MedecinRepository;
+import tn.enis.gestion_des_medecins.repositories.PatientRepository;
+
+import java.util.List;
 
 @RestController
 public class ConsultationController {
 	
 	@Autowired
 	private ConsultationRepository consultationRepository;
+	@Autowired
+	private PatientRepository patientRepository;
+	@Autowired
+	private MedecinRepository medecinRepository;
 	
 	@GetMapping(value="/consultations")
+	@Secured({ "ROLE_ADMIN"})
 	public List<Consultation> getAll(){
 		return consultationRepository.findAll();
 	}
 	
-	@GetMapping(value="/consultation/{id}")
+	@GetMapping(value="/consult/{id}")
+	@Secured({ "ROLE_ADMIN"})
 	public Consultation findOne(@PathVariable Long id) {
 		return consultationRepository.findById(id).get();
 	}
 	
-	@PostMapping(value="/saveconsultation")
+	@PostMapping(value="/consult/save")
+	@Secured({ "ROLE_ADMIN"})
 	public Consultation save(@RequestBody Consultation consultation) {
 		return consultationRepository.save(consultation);
 	}
 	
-	@PutMapping(value="/editconsultation")
+	@PutMapping(value="/consult/edit")
+	@Secured({ "ROLE_ADMIN"})
 	public Consultation edit(@RequestBody Consultation consultation) {
 		return consultationRepository.save(consultation);
 	}
-	
-	@DeleteMapping(value="/deleteconsultation/{id}")
+
+	@DeleteMapping(value="/consult/delete/{id}")
+	@Secured({ "ROLE_ADMIN"})
 	public void delete(@PathVariable Long id) {
 		consultationRepository.delete(consultationRepository.getOne(id));
 	}
+
+	@GetMapping(value="/patient/{id}/consults")
+	@Secured({ "ROLE_ADMIN","ROLE_PATIENT"})
+	public List<Consultation> listConsultsOfPatient(@PathVariable Long id){ return consultationRepository.listConsultsOfPatient(patientRepository.getOne(id));}
+
+	@GetMapping(value="/medecin/{id}/consults")
+	@Secured({ "ROLE_ADMIN","ROLE_MEDECIN"})
+	public List<Consultation> listConsultsOfDoctor(@PathVariable Long id){ return consultationRepository.listConsultsOfDoctor(medecinRepository.getOne(id));}
 
 }

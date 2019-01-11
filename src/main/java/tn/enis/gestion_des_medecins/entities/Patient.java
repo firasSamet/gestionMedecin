@@ -1,10 +1,11 @@
 package tn.enis.gestion_des_medecins.entities;
 
 import lombok.Data;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.*;
 
 @Entity
 @Data
@@ -12,7 +13,7 @@ public class Patient implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long Id;
+	private Long id;
 	private String nom;
 	private String prenom;
 	@Temporal(TemporalType.DATE)
