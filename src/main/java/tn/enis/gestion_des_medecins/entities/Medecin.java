@@ -1,6 +1,8 @@
 package tn.enis.gestion_des_medecins.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -18,29 +20,38 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Data
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="type_med",discriminatorType=DiscriminatorType.STRING, length=2)
-public class Medecin implements Serializable{
-	
+public class Medecin implements Serializable {
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+	@NotBlank
 	private String nom;
+	@NotBlank
+
 	private String prenom;
-	
+	@Transient
+	@NotBlank
+	private String type;
+
 	@Temporal(TemporalType.DATE)
 	private Date dateNaissance;
-	
+	@NotBlank
 	private String email;
+	@NotBlank
+	private String password;
 	@Lob
 	private byte[] photo;
 	private String codePublic;
-	
-	@OneToMany(mappedBy="medecin")
+
+	@OneToMany(mappedBy = "medecin")
 	private Collection<Consultation> consultations;
+
 
 }

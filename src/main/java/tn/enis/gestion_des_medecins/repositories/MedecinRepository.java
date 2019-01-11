@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import tn.enis.gestion_des_medecins.entities.Medecin;
 
-public interface MedecinRepository extends JpaRepository<Medecin, Long> {
+public interface MedecinRepository< T extends Medecin> extends JpaRepository<T, Long> {
 
 	@Query("select m from Medecin m where m.nom like :nom")
-	public List<Medecin> chercher(@Param("nom") String nom);
-
+	public List<T> chercher(@Param("nom") String nom);
+	T findByEmail(String email);
+	boolean existsByEmail(String email);
 }

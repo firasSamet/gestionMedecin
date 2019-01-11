@@ -26,12 +26,12 @@ public class MedecinController {
 	
 	@RequestMapping(value="/medecin/{id}", method=RequestMethod.GET)
 	public Medecin findOneMedecin(@PathVariable Long id) {
-		return medecinRepository.findById(id).get();
+		return (Medecin) medecinRepository.findById(id).get();
 	}
 	
 	@PostMapping(value="/savemedecin")
 	public Medecin saveMedecin(@RequestBody MedecinGeneraliste medecin) {
-		return medecinRepository.save(medecin);
+		return (Medecin) medecinRepository.save(medecin);
 	}
 
 }
